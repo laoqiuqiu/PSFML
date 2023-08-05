@@ -3014,8 +3014,8 @@ begin
     DllHandle := 0;
   end;
 
-  if SysUtils.FileExists(DllFilename) then
-    SysUtils.DeleteFile(DllFilename);
+  if FileExists(DllFilename) then
+    DeleteFile(DllFilename);
 
   Halt;
 end;
@@ -3033,9 +3033,9 @@ begin
     LResStream.Position := 0;
     DllFilename := GetTempGUIDFilename;
     LResStream.SaveToFile(DllFilename);
-    if not SysUtils.FileExists(DllFilename) then Abort;
-    DllHandle := LoadLibraryW(PChar(DllFilename));
-    if DLLHandle = 0 then Abort;
+    if not FileExists(DllFilename) then AbortDLL;
+    DllHandle := LoadLibrary(PChar(DllFilename));
+    if DLLHandle = 0 then AbortDLL;
 
   finally
     LResStream.Free;

@@ -18,7 +18,7 @@ You simply add `PSFML` to your uses section and everything will be linked in you
 
 ```Pascal
 uses
-  System.SysUtils,
+  SysUtils,
   PSFML;
 
 var
