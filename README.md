@@ -2,7 +2,7 @@
 
 [![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![Twitter Follow](https://img.shields.io/twitter/follow/tinyBigGAMES?style=social)](https://twitter.com/tinyBigGAMES)
 # PSFML
-### Simple Fast Multimedia Layer for Pascal
+### Simple and Fast Multimedia Library for Pascal
 
 Pascal bindings that allow you to use **SFML** and other useful libraries with <a href="https://www.embarcadero.com/es/products/delphi" target="_blank">Delphi</a> and <a href="https://www.freepascal.org" target="_blank">FreePascal</a>.
 
