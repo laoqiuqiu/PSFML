@@ -13,6 +13,8 @@ Pascal bindings that allow you to use **SFML** and other useful libraries with <
 - Should work on Windows 7+ (64 bits)
 - Should work on any Delphi/FreePascal that can target Win64/Unicode
 
+**NOTE: Made/tested on Windows/Delphi 11.**
+
 ### Usage
 You simply add `PSFML` to your uses section and everything will be linked in your executable, ready for use with no DLLs to maintain. You will have direct access to all the aforementioned libraries.
 
