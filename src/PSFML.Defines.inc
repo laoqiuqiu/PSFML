@@ -1,4 +1,4 @@
-﻿{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
            ___  ___  ___  __  __  _
           | _ \/ __|| __||  \/  || |
           |  _/\__ \| _| | |\/| || |__
@@ -40,24 +40,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
 
-program testbed;
+{$IFDEF FPC}
+  {$MODE DELPHIUNICODE}
+{$ENDIF}
 
-{$APPTYPE CONSOLE}
+{$Z4}
+{$A8}
 
-{$R *.res}
-
-uses
-  System.SysUtils,
-  utestbed in 'utestbed.pas',
-  PSFML.ZipFile in '..\..\src\PSFML.ZipFile.pas',
-  PSFML.Core in '..\..\src\PSFML.Core.pas',
-  PSFML.Utils in '..\..\src\PSFML.Utils.pas';
-
-begin
-  try
-    RunTests;
-  except
-    on E: Exception do
-      Writeln(E.ClassName, ': ', E.Message);
-  end;
-end.
+{$IFNDEF WIN64}
+  {$MESSAGE Error 'Unsupported platform'}
+{$ENDIF}

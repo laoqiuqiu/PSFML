@@ -46,12 +46,18 @@ interface
 
 uses
   System.SysUtils,
-  PSFML;
+  PSFML.Core,
+  PSFML.Utils,
+  PSFML.ZipFile;
 
 procedure RunTest(const ANum: UInt64);
 procedure RunTests;
 
 implementation
+
+const
+  CZipPassword = '153e23283fb649fb8da0d0f3a938c2a7';
+  CZipFilename = 'Data.zip';
 
 procedure Pause;
 begin
@@ -71,7 +77,8 @@ begin
   LMode.Height := 600;
   LMode.BitsPerPixel := 32;
 
-  LRenderWindow := sfRenderWindow_create(LMode, 'SFML Window', sfResize or sfClose, nil);
+  LRenderWindow := sfRenderWindow_create(LMode, 'SFML Window',
+    sfResize or sfClose, nil);
   SetDefaultIcon(LRenderWindow);
 
   while sfRenderWindow_isOpen(LRenderWindow) = sfTrue do
@@ -99,7 +106,8 @@ begin
   LMode.Height := 600;
   LMode.BitsPerPixel := 32;
 
-  LRenderWindow := sfRenderWindow_create(LMode, 'SFML Scaled Window', sfResize or sfClose, nil);
+  LRenderWindow := sfRenderWindow_create(LMode, 'SFML Scaled Window',
+    sfClose, nil);
   SetDefaultIcon(LRenderWindow);
   ScaleWindowToMonitor(LRenderWindow);
 
@@ -129,7 +137,8 @@ begin
   LMode.Height := 600;
   LMode.BitsPerPixel := 32;
 
-  LRenderWindow := sfRenderWindow_create(LMode, 'SFML Music', sfResize or sfClose, nil);
+  LRenderWindow := sfRenderWindow_create(LMode, 'SFML Music',
+    sfClose, nil);
   SetDefaultIcon(LRenderWindow);
   ScaleWindowToMonitor(LRenderWindow);
 
@@ -154,6 +163,68 @@ begin
   sfRenderWindow_destroy(LRenderWindow);
 end;
 
+procedure sfZipFileBuildProgress(const ASender: Pointer;
+  const AFilename: string; const AProgress: Integer;
+  const ANewFile: Boolean);
+begin
+  if ANewFile then WriteLn;
+  Write(Format(#13'%s(%d%s)...', [AFilename, AProgress, '%']));
+end;
+
+procedure Test04;
+begin
+  WriteLn('Building ', CZipFilename, '...');
+  if sfZipFile_build(CZipPassword, CZipFilename, 'res', nil,
+    sfZipFileBuildProgress) then
+    WriteLn(#10#10'Success!')
+  else
+    WriteLn(#10#10'Failed!');
+end;
+
+procedure Test05;
+var
+  LMode: sfVideoMode;
+  LRenderWindow: PsfRenderWindow;
+  LEvent: sfEvent;
+  LMusic: PsfMusic;
+  LInputStream:  PsfInputStream;
+begin
+  LMode.Width := 800;
+  LMode.Height := 600;
+  LMode.BitsPerPixel := 32;
+
+  LRenderWindow := sfRenderWindow_create(LMode,
+    'SFML ZipFile Streaming Music', sfClose, nil);
+  SetDefaultIcon(LRenderWindow);
+  ScaleWindowToMonitor(LRenderWindow);
+
+  LInputStream := sfZipFile_open(CZipPassword, CZipFilename,
+    'res/music/song01.ogg');
+
+  LMusic := sfMusic_createFromStream(LInputStream);
+  sfMusic_setLoop(LMusic, sfTrue);
+  sfMusic_play(LMusic);
+
+  while sfRenderWindow_isOpen(LRenderWindow) = sfTrue do
+  begin
+    while sfRenderWindow_pollEvent(LRenderWindow, @LEvent) = sfTrue do
+    begin
+      if LEvent.type_ = sfEvtClosed then
+        sfRenderWindow_close(LRenderWindow);
+    end;
+
+    sfRenderWindow_clear(LRenderWindow, DARKSLATEBROWN);
+    sfRenderWindow_display(LRenderWindow);
+  end;
+
+  sfMusic_stop(LMusic);
+  sfMusic_destroy(LMusic);
+
+  sfZipFile_close(LInputStream);
+
+  sfRenderWindow_destroy(LRenderWindow);
+end;
+
 
 procedure RunTest(const ANum: UInt64);
 begin
@@ -161,12 +232,14 @@ begin
     01: Test01;
     02: Test02;
     03: Test03;
+    04: Test04;
+    05: Test05;
   end;
 end;
 
 procedure RunTests;
 begin
-  RunTest(01);
+  RunTest(05);
   Pause;
 end;
 

@@ -9,6 +9,9 @@ Pascal bindings that allow you to use **SFML** and other useful libraries with <
 ### Included
 - **CSFML** (https://github.com/SFML/CSFML)
 
+### Additional Features
+* ZipFile - Added support for loading/streaming SFML resources from a standard zip archive. 
+
 ### Minimum Requirements 
 - Should work on Windows 7+ (64 bits)
 - Should work on any Delphi/FreePascal that can target Win64/Unicode

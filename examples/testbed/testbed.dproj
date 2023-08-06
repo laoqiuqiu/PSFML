@@ -117,6 +117,9 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="utestbed.pas"/>
+        <DCCReference Include="..\..\src\PSFML.ZipFile.pas"/>
+        <DCCReference Include="..\..\src\PSFML.Core.pas"/>
+        <DCCReference Include="..\..\src\PSFML.Utils.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
